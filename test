@@ -1,0 +1,59 @@
+https://github.com/thephpleague/omnipay/issues/423
+
+ /**
+     * Retuns an array of registered namespaces from composer's autoload file
+     * @return array
+     */
+    protected function getGatewayNamespaces()
+    {
+        $file = __DIR__ . '/vendor/composer/autoload_psr4.php';
+        if (is_readable($file)) {
+            $namespaces = include $file;
+            return array_keys($namespaces);
+        }
+        return array();
+    }
+
+    /**
+     * Returns an array of gateway IDs (short names) extracted from the registered namespaces
+     * @return array
+     */
+    public function getGatewayIds()
+    {
+        $gateways = array();
+
+        foreach ($this->getGatewayNamespaces() as $namespace) {
+            if (strpos($namespace, 'Omnipay') !== 0) {
+                continue;
+            }
+            $matches = array();
+            preg_match('/Omnipay\\\(.+?)\\\/', $namespace, $matches);
+
+            if (isset($matches[1])) {
+                $gateways[] = trim($matches[1]);
+            }
+        }
+
+        return $gateways;
+    }
+
+    /**
+     * Returns an array of ALL registered gateway instances
+     * @return array
+     */
+    public function getGatewayInstances()
+    {
+        foreach ($this->getGatewayIds() as $id) {
+            $class = \Omnipay\Common\Helper::getGatewayClassName($id);
+            if (class_exists($class)) {
+                \Omnipay\Omnipay::register($id);
+            }
+        }
+
+        $registered = array();
+        foreach (\Omnipay\Omnipay::find() as $id) {
+            $registered[$id] = \Omnipay\Omnipay::create($id);
+        }
+
+        return $registered;
+    }

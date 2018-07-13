@@ -1,0 +1,19 @@
+{
+    "name": "lari/omnipay-payment-manager",
+    "description": "Paymnet Manager System for Omnipay",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sebastian Szczepanski",
+            "email": "sebastian@ably.pl"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Lari\\PaymentManager\\": "src/"
+        }
+    }
+}
