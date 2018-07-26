@@ -10,10 +10,18 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {},
+    "require": {
+        "webpatser/laravel-uuid": "^3.0",
+        "omnipay/common": "^3"
+    },
     "autoload": {
         "psr-4": {
-            "Lari\\PaymentManager\\": "src/"
+            "Lari\\Payments\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-develop": "1.0.x-dev"
         }
     }
 }
