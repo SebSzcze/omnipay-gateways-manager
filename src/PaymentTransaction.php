@@ -13,6 +13,11 @@ class PaymentTransaction extends Model
 {
     protected $guarded = [];
 
+    protected $casts = [
+        'data'    => 'collection',
+        'is_test' => 'boolean',
+    ];
+
     /**
      * Indicates if the IDs are auto-incrementing.
      *
@@ -41,6 +46,38 @@ class PaymentTransaction extends Model
     public function gateway()
     {
         return $this->belongsTo(PaymentGateway::class);
+    }
+
+    /**
+     * @param bool $test
+     * @return bool
+     */
+    public function isTest(bool $test = false)
+    {
+        return $this->update(['is_test' => $test]);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isReal(): bool
+    {
+        return !$this->is_test;
+    }
+
+    /**
+     * @param $data
+     * @return PaymentTransaction
+     */
+    public function setDataAttribute($data)
+    {
+        if (is_array($data)) {
+            $data = json_encode($data);
+        }
+
+        $this->attributes['data'] = $data;
+
+        return $this;
     }
 
 }

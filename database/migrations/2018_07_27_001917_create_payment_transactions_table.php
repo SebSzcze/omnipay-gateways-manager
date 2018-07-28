@@ -27,6 +27,8 @@ class CreatePaymentTransactionsTable extends Migration
             $table->string('ip', 20)->nullable(); // 192.168.100.100
             $table->text('data')->nullable();
 
+            $table->boolean('is_test')->default(0);
+
             $table->index(['order_id', 'id']);
             $table->unique(['gateway_id', 'provider_id']);
 

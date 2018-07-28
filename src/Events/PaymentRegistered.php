@@ -9,19 +9,25 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Lari\Payments\PaymentTransaction;
 
 class PaymentRegistered
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
+     * @var PaymentTransaction
+     */
+    public $transaction;
+
+    /**
      * Create a new event instance.
      *
-     * @return void
+     * @param PaymentTransaction $transaction
      */
-    public function __construct()
+    public function __construct(PaymentTransaction $transaction)
     {
-        //
+        $this->transaction = $transaction;
     }
 
     /**

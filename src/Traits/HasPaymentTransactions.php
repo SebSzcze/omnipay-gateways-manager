@@ -26,7 +26,7 @@ trait HasPaymentTransactions
      */
     public function getPaidAttribute(): int
     {
-        return $this->transactions->sum('amount');
+        return $this->transactions->filter->isReal()->sum('amount');
     }
 
     /**
@@ -38,10 +38,34 @@ trait HasPaymentTransactions
     }
 
     /**
+     * @return bool
+     */
+    public function isUnderpaid()
+    {
+        return $this->paid > 0 && $this->paid < $this->amount;
+    }
+
+    /**
      * @return int
      */
     public function getUnderpaymentAttribute(): int
     {
         return $this->amount - $this->paid;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isOverpaid()
+    {
+        return $this->amount < $this->paid;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOverpaymentAttribute()
+    {
+        return $this->paid - $this->amount;
     }
 }
