@@ -34,6 +34,11 @@
     "extra": {
         "branch-alias": {
             "dev-develop": "1.0.x-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Lari\\Payments\\PaymentManagerServiceProvider"
+            ]
         }
     }
 }
